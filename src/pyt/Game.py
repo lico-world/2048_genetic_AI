@@ -107,3 +107,11 @@ class Game:
             for val in row:
                 count += val
         return count
+
+    def __str__(self):
+        str_val = ''
+        for y in range(self._size):
+            for x in range(self._size):
+                str_val += str(self._game_board[x][y])
+            str_val += '\n'
+        return str_val
