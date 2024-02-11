@@ -7,6 +7,9 @@ class Game:
     def move(self, direction):
         pass
 
+    def set_value(self, x, y, val):
+        pass
+
     def is_finished(self):
         return False
 
