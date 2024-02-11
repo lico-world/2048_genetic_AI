@@ -1,3 +1,15 @@
+def _isValidValue(x):
+    if x == 0:
+        return True  # Because an empty tile is a 0
+    elif x == 1:
+        return False
+    while x != 1:
+        if x % 2 != 0:
+            return False
+        x = x // 2
+    return True
+
+
 class Game:
     def __init__(self, size):
         self._game_board = [[0 for _ in range(size)] for _ in range(size)]
@@ -8,16 +20,26 @@ class Game:
         pass
 
     def set_value(self, x, y, val):
-        pass
+        if _isValidValue(val):
+            self._game_board[x][y] = val
+        else:
+            raise ValueError
 
     def grow_data(self, x, y):
-        pass
+        if self._game_board[x][y] == 0:
+            raise ValueError
+        self.set_value(x, y, self._game_board[x][y] * 2)
 
     def is_finished(self):
         return False
 
     def empty_tiles(self):
-        return 0
+        count = 0
+        for raw in self._game_board:
+            for val in raw:
+                if val == 0:
+                    count += 1
+        return count
 
     @property
     def board(self):
