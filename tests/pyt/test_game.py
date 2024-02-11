@@ -41,6 +41,20 @@ class TestGame(unittest.TestCase):
         self._game.move('U')
         self.assertEqual(self._test_array, self._game.board)
 
+        self._test_array[0][0] = 0
+        self._test_array[3][0] = 16
+        self._game.set_value(2, 0, 8)
+        self._game.move('R')
+        self.assertEqual(self._test_array, self._game.board)
+
+        self._test_array[3][0] = 0
+        self._test_array[0][0] = 32
+        self._game.set_value(2, 0, 16)
+        self._game.move('L')
+        self.assertEqual(self._test_array, self._game.board)
+
+        self.assertRaises(ValueError, self._game.move, 'H')
+
     def test_empty_tiles(self):
         self.assertEqual(self._game.size ** 2, self._game.empty_tiles())
 
