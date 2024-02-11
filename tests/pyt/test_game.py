@@ -27,7 +27,7 @@ class TestGame(unittest.TestCase):
         self._test_array[3][0] = 0
         self._test_array[3][3] = 4
         self._game.set_value(3, 2, 2)
-        self._game.move('U')
+        self._game.move('D')
         self.assertEqual(self._test_array, self._game.board)
 
         self._test_array[3][3] = 0
@@ -38,8 +38,22 @@ class TestGame(unittest.TestCase):
         self._test_array[0][3] = 0
         self._test_array[0][0] = 8
         self._game.set_value(0, 0, 4)
-        self._game.move('D')
+        self._game.move('U')
         self.assertEqual(self._test_array, self._game.board)
+
+        self._test_array[0][0] = 0
+        self._test_array[3][0] = 16
+        self._game.set_value(2, 0, 8)
+        self._game.move('R')
+        self.assertEqual(self._test_array, self._game.board)
+
+        self._test_array[3][0] = 0
+        self._test_array[0][0] = 32
+        self._game.set_value(2, 0, 16)
+        self._game.move('L')
+        self.assertEqual(self._test_array, self._game.board)
+
+        self.assertRaises(ValueError, self._game.move, 'H')
 
     def test_empty_tiles(self):
         self.assertEqual(self._game.size ** 2, self._game.empty_tiles())
@@ -60,7 +74,6 @@ class TestGame(unittest.TestCase):
 
         for i in range((self._game.size ** 2)):
             self._game.set_value(i // self._game.size, i % self._game.size, 2 ** (i+1))
-        print(self._game.board)
         self.assertEqual(True, self._game.is_finished())
 
     def test_grow_data(self):
@@ -78,7 +91,7 @@ class TestGame(unittest.TestCase):
         self.assertEqual(4, self._game.score)
 
         for i in range((self._game.size ** 2)):
-            self._game.set_value(i / (self._game.size ** 2), i % (self._game.size ** 2), 2 if i % 2 == 0 else 4)
+            self._game.set_value(i // self._game.size, i % self._game.size, 2 if i % 2 == 0 else 4)
         self.assertEqual(3 * (self._game.size ** 2), self._game.score)
 
 
