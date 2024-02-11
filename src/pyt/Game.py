@@ -10,6 +10,9 @@ class Game:
     def set_value(self, x, y, val):
         pass
 
+    def grow_data(self, x, y):
+        pass
+
     def is_finished(self):
         return False
 
