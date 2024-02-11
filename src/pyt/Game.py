@@ -112,6 +112,6 @@ class Game:
         str_val = ''
         for y in range(self._size):
             for x in range(self._size):
-                str_val += str(self._game_board[x][y])
+                str_val += str(self._game_board[x][y]) + '\t| '
             str_val += '\n'
         return str_val
