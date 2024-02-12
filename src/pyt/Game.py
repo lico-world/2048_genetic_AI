@@ -16,43 +16,82 @@ class Game:
         self._size = size
         self._score = 0
 
+    def _proj_tile(self, x, y, direction):
+        if direction == 'D':
+            moved = True
+            while y+1 < self._size and moved:
+                if self._game_board[x][y+1] == 0:
+                    self.set_value(x, y+1, self._game_board[x][y])
+                    self.set_value(x, y, 0)
+                    y = y+1
+                elif self._game_board[x][y+1] == self._game_board[x][y]:
+                    self.grow_data(x, y+1)
+                    self.set_value(x, y, 0)
+                    moved = False
+                else:
+                    moved = False
+        elif direction == 'U':
+            moved = True
+            while y-1 >= 0 and moved:
+                if self._game_board[x][y-1] == 0:
+                    self.set_value(x, y-1, self._game_board[x][y])
+                    self.set_value(x, y, 0)
+                    y = y-1
+                elif self._game_board[x][y-1] == self._game_board[x][y]:
+                    self.grow_data(x, y-1)
+                    self.set_value(x, y, 0)
+                    moved = False
+                else:
+                    moved = False
+        elif direction == 'L':
+            moved = True
+            while x-1 >= 0 and moved:
+                if self._game_board[x-1][y] == 0:
+                    self.set_value(x-1, y, self._game_board[x][y])
+                    self.set_value(x, y, 0)
+                    x = x-1
+                elif self._game_board[x-1][y] == self._game_board[x][y]:
+                    self.grow_data(x-1, y)
+                    self.set_value(x, y, 0)
+                    moved = False
+                else:
+                    moved = False
+        elif direction == 'R':
+            moved = True
+            while x+1 < self._size and moved:
+                if self._game_board[x+1][y] == 0:
+                    self.set_value(x+1, y, self._game_board[x][y])
+                    self.set_value(x, y, 0)
+                    x = x+1
+                elif self._game_board[x+1][y] == self._game_board[x][y]:
+                    self.grow_data(x+1, y)
+                    self.set_value(x, y, 0)
+                    moved = False
+                else:
+                    moved = False
+
     def move(self, direction):
-        if direction == 'U':  # UP
-            for y in range(self._size-1, 0, -1):
+        if direction == 'D':  # DOWN
+            for y in range(self._size-1).__reversed__():
                 for x in range(self._size):
-                    if self._game_board[x][y-1] == 0:
-                        self.set_value(x, y-1, self._game_board[x][y])
-                        self.set_value(x, y, 0)
-                    elif self._game_board[x][y-1] == self._game_board[x][y]:
-                        self.grow_data(x, y-1)
-                        self.set_value(x, y, 0)
-        elif direction == 'D':  # DOWN
-            for y in range(self._size-1):
+                    if not self._game_board[x][y] == 0:
+                        self._proj_tile(x, y, direction)
+
+        elif direction == 'U':  # UP
+            for y in range(1, self._size, 1):
                 for x in range(self._size):
-                    if self._game_board[x][y+1] == 0:
-                        self.set_value(x, y+1, self._game_board[x][y])
-                        self.set_value(x, y, 0)
-                    elif self._game_board[x][y+1] == self._game_board[x][y]:
-                        self.grow_data(x, y+1)
-                        self.set_value(x, y, 0)
-        elif direction == 'R':  # RIGHT
-            for x in range(self._size-1):
-                for y in range(self._size):
-                    if self._game_board[x+1][y] == 0:
-                        self.set_value(x+1, y, self._game_board[x][y])
-                        self.set_value(x, y, 0)
-                    elif self._game_board[x+1][y] == self._game_board[x][y]:
-                        self.grow_data(x+1, y)
-                        self.set_value(x, y, 0)
+                    if not self._game_board[x][y] == 0:
+                        self._proj_tile(x, y, direction)
         elif direction == 'L':  # LEFT
-            for x in range(self._size-1, 0, -1):
+            for x in range(1, self._size, 1):
                 for y in range(self._size):
-                    if self._game_board[x-1][y] == 0:
-                        self.set_value(x-1, y, self._game_board[x][y])
-                        self.set_value(x, y, 0)
-                    elif self._game_board[x-1][y] == self._game_board[x][y]:
-                        self.grow_data(x-1, y)
-                        self.set_value(x, y, 0)
+                    if not self._game_board[x][y] == 0:
+                        self._proj_tile(x, y, direction)
+        elif direction == 'R':  # RIGHT
+            for x in range(self._size-1).__reversed__():
+                for y in range(self._size):
+                    if not self._game_board[x][y] == 0:
+                        self._proj_tile(x, y, direction)
         else:
             raise ValueError  # The move direction cannot be anything else than up/down/right/left
 
