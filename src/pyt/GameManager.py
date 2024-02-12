@@ -9,6 +9,8 @@ class GameManager:
         if not rand:  # For reproducible tests
             random.seed(0)
 
+        self._n = [[0 for _ in range(size)] for _ in range(size)]
+
     def game_loop(self, verbose=False, moves_stack=None):
         use_stack = moves_stack is not None
         if use_stack:
@@ -24,22 +26,37 @@ class GameManager:
                 move = stack[0]
                 stack.pop(0)
 
+            if move == 'Z':
+                for i, row in enumerate(self._n):
+                    for j, val in enumerate(row):
+                        self._game.set_value(i, j, val)
+                continue
+
+            for i, row in enumerate(self._game.board):
+                for j, val in enumerate(row):
+                    self._n[i][j] = val
+
             self._game.move(move)
 
-            x = random.randint(0, self._game.size-1)
-            y = random.randint(0, self._game.size-1)
-            while not self._game.board[x][y] == 0:
+            if not self._n == self._game.board:
                 x = random.randint(0, self._game.size-1)
                 y = random.randint(0, self._game.size-1)
+                while not self._game.board[x][y] == 0:
+                    x = random.randint(0, self._game.size-1)
+                    y = random.randint(0, self._game.size-1)
 
-            self._game.set_value(x, y,
-                                 2 if random.randint(1, 100) else 4)
+                self._game.set_value(x, y,
+                                     2 if random.randint(1, 100) else 4)
         self.end_game(verbose)
 
     def init_game(self):
         self._game.set_value(random.randint(0, self._game.size-1),
                              random.randint(0, self._game.size-1),
                              2 if random.randint(1, 100) < 90 else 4)
+
+        for i, row in enumerate(self._game.board):
+            for j, val in enumerate(row):
+                self._n[i][j] = val
 
     def end_game(self, verbose):
         if verbose:
