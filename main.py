@@ -1,21 +1,11 @@
 from time import sleep
-from src.pyt.Game import *
+from src.pyt.GameManager import GameManager
 
 
 def main():
-    game = Game(4)
-    game.set_value(2, 1, 2)
-    print(game)
-
-    sleep(1)
-    game.move('R')
-    game.set_value(3, 0, 2)
-    print(game)
-
-    sleep(1)
-    game.move('U')
-    game.set_value(3, 2, 2)
-    print(game)
+    gm = GameManager(4)
+    gm.init_game()
+    gm.game_loop(verbose=True)
 
 
 if __name__ == '__main__':
