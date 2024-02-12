@@ -15,13 +15,13 @@ class TestGameManager(unittest.TestCase):
 
     def test_end_game(self):
         self._game_manager.init_game()
-        self._game_manager.game_loop('ULULULULULULULULULULULULULULULULULULULULULULULULULULULULULULULUL')
+        self._game_manager.game_loop(moves_stack='ULULULULULULULULULULULULULULULULULULULULULULULULULULULULULULULUL')
         self.assertEqual(130, self._game_manager.game.score)
 
     def test_game_loop(self):
         self._game_manager.init_game()
-        self._game_manager.game_loop('ULULULULULULULULULULULULULULULULULULULULULULULULULULULULULULULUL')
-        self._test_array = [[64, 32, 4, 2], [16, 2, 0, 0], [8, 0, 0, 0], [0, 0, 2, 0]]
+        self._game_manager.game_loop(moves_stack='ULULULULULULULULULULULULULULULULULULULULULULULULULULULULULULULUL')
+        self._test_array = [[64, 16, 8, 4], [16, 8, 4, 0], [4, 2, 0, 0], [2, 2, 0, 0]]
         self.assertEqual(self._test_array, self._game_manager.game.board)
 
 

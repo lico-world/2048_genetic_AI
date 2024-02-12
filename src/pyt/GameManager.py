@@ -10,15 +10,15 @@ class GameManager:
             random.seed(0)
 
     def game_loop(self, verbose=False, moves_stack=None):
-        wait_end = moves_stack is None
-        if not wait_end:
+        use_stack = moves_stack is not None
+        if use_stack:
             stack = list(moves_stack)
 
-        while (not self._game.is_finished()) if wait_end else len(stack) > 0:
+        while (not self._game.is_finished()) if not use_stack else len(stack) > 0:
             if verbose:
                 print(self._game)
 
-            if wait_end:
+            if not use_stack:
                 move = input('play:').upper()
             else:
                 move = stack[0]
