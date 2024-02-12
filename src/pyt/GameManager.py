@@ -36,9 +36,13 @@ class GameManager:
                 for j, val in enumerate(row):
                     self._n[i][j] = val
 
-            self._game.move(move)
+            wrong_move = False
+            try:
+                self._game.move(move)
+            except ValueError:
+                wrong_move = True
 
-            if not self._n == self._game.board:
+            if not self._n == self._game.board or not wrong_move:
                 x = random.randint(0, self._game.size-1)
                 y = random.randint(0, self._game.size-1)
                 while not self._game.board[x][y] == 0:
