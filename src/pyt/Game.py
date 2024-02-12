@@ -72,24 +72,24 @@ class Game:
 
     def move(self, direction):
         if direction == 'D':  # DOWN
-            for y in [2, 1, 0]:
-                for x in range(4):
+            for y in range(self._size-1).__reversed__():
+                for x in range(self._size):
                     if not self._game_board[x][y] == 0:
                         self._proj_tile(x, y, direction)
 
         elif direction == 'U':  # UP
-            for y in [1, 2, 3]:
-                for x in range(4):
+            for y in range(1, self._size, 1):
+                for x in range(self._size):
                     if not self._game_board[x][y] == 0:
                         self._proj_tile(x, y, direction)
         elif direction == 'L':  # LEFT
-            for x in [1, 2, 3]:
-                for y in range(4):
+            for x in range(1, self._size, 1):
+                for y in range(self._size):
                     if not self._game_board[x][y] == 0:
                         self._proj_tile(x, y, direction)
         elif direction == 'R':  # RIGHT
-            for x in [2, 1, 0]:
-                for y in range(4):
+            for x in range(self._size-1).__reversed__():
+                for y in range(self._size):
                     if not self._game_board[x][y] == 0:
                         self._proj_tile(x, y, direction)
         else:
